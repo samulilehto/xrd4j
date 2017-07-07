@@ -42,6 +42,12 @@
             <version>0.0.18-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.github.markusbernhardt/proxy-vole -->
+        <dependency>
+            <groupId>com.github.markusbernhardt</groupId>
+            <artifactId>proxy-vole</artifactId>
+            <version>1.0.3</version>
+        </dependency>
     </dependencies>
     <build>      
         <defaultGoal>package</defaultGoal>
