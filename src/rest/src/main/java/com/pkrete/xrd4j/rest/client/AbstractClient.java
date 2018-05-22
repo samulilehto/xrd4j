@@ -1,27 +1,21 @@
 package com.pkrete.xrd4j.rest.client;
 
-import com.github.markusbernhardt.proxy.ProxySearch;
-import com.github.markusbernhardt.proxy.selector.misc.BufferedProxySelector;
-import com.pkrete.xrd4j.rest.ClientResponse;
-import com.pkrete.xrd4j.rest.util.ClientUtil;
 import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.net.Proxy;
-import java.net.ProxySelector;
-import java.net.URI;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
+
 import org.apache.http.Header;
+import org.apache.http.HttpHost;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.DefaultProxyRoutePlanner;
-import org.apache.http.HttpHost;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.pkrete.xrd4j.rest.ClientResponse;
+import com.pkrete.xrd4j.rest.util.ClientUtil;
 
 /**
  * This is an abstract base class for classes implementing GET, POST, PUT and
@@ -41,7 +35,23 @@ public abstract class AbstractClient implements RESTClient {
         try {
             System.setProperty("java.net.useSystemProxies", "true");
 
-            // Use proxy vole to find the default proxy
+            String xrd4jProxy = System.getProperty("xrd4jProxy");
+            if (xrd4jProxy != null) {
+                String[] parts = xrd4jProxy.split(":");
+                String xrd4jProxyUrl = parts[0];
+                int xrd4jProxyPort = Integer.parseInt(parts[1]);
+    
+                logger.info("proxy hostname : {}", xrd4jProxyUrl);
+                logger.info("proxy port : {}", xrd4jProxyPort);
+    
+                return new HttpHost(xrd4jProxyUrl, xrd4jProxyPort);
+            }
+            else {
+                logger.info("Not using proxy");
+                return null;
+            }
+
+            /* // Use proxy vole to find the default proxy
             ProxySearch ps = ProxySearch.getDefaultProxySearch();
 
             ps.setPacCacheSettings(32, 1000 * 60 * 5, BufferedProxySelector.CacheScope.CACHE_SCOPE_URL);
@@ -72,7 +82,7 @@ public abstract class AbstractClient implements RESTClient {
                     logger.info("proxy port : {}", addr.getPort());
                     return new HttpHost(addr.getHostName(), addr.getPort());
                 }
-            }
+            }*/
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

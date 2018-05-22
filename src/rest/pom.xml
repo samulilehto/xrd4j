@@ -43,11 +43,11 @@
             <scope>test</scope>
         </dependency>
         <!-- https://mvnrepository.com/artifact/com.github.markusbernhardt/proxy-vole -->
-        <dependency>
+        <!--<dependency>
             <groupId>com.github.markusbernhardt</groupId>
             <artifactId>proxy-vole</artifactId>
             <version>1.0.3</version>
-        </dependency>
+        </dependency>-->
     </dependencies>
     <build>      
         <defaultGoal>package</defaultGoal>
